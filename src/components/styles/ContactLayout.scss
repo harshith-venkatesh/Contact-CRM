@@ -1,0 +1,343 @@
+
+@import 'variables';
+@import 'mixins';
+
+// Three-section responsive layout
+.contact-layout {
+  display: grid;
+  gap: $spacing-lg;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: $spacing-md;
+  
+  // Mobile: Single column stack
+  @include mobile-only {
+    grid-template-columns: 1fr;
+    grid-template-areas: 
+      "contact-details"
+      "contact-info" 
+      "notes";
+    gap: $spacing-md;
+    padding: $spacing-sm;
+  }
+
+  // Tablet: Two columns with notes spanning full width
+  @include tablet-up {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: 
+      "contact-details contact-info"
+      "notes notes";
+    gap: $spacing-lg;
+  }
+
+  // Desktop: Three columns side by side
+  @include desktop-up {
+    grid-template-columns: 1fr 6fr 1fr;
+    grid-template-areas: "contact-details contact-info notes";
+    gap: $spacing-sm;
+  }
+
+  // Large desktop: More spacing
+  @include large-desktop-up {
+    grid-template-columns: 1fr 3fr 1fr;
+    gap: $spacing-sm;
+    padding: $spacing-sm;
+  }
+}
+
+// Section containers
+.contact-section {
+  @include card-base;
+  display: flex;
+  flex-direction: column;
+  min-height: 0; // Prevents flexbox overflow issues
+  
+  &--contact-details {
+    grid-area: contact-details;
+    
+    .section-header {
+      @include flex-between;
+      margin-bottom: $spacing-lg;
+      padding-bottom: $spacing-md;
+      border-bottom: 1px solid $border-light;
+      
+      .section-title {
+        color: $text-primary;
+        font-size: $font-xl;
+        font-weight: $font-semibold;
+        margin: 0;
+        
+        @include mobile-only {
+          font-size: $font-lg;
+        }
+      }
+      
+      .section-status {
+        padding: $spacing-xs $spacing-sm;
+        border-radius: $radius-lg;
+        font-size: $font-xs;
+        font-weight: $font-medium;
+        
+        &--active {
+          background-color: $bg-success;
+          color: $success-color;
+        }
+        
+        &--inactive {
+          background-color: $bg-warning;
+          color: $warning-color;
+        }
+      }
+    }
+    
+    .avatar-section {
+      @include flex-center;
+      margin-bottom: $spacing-lg;
+      
+      .main-avatar {
+        width: 80px;
+        height: 80px;
+        border-radius: $radius-full;
+        border: 3px solid $border-light;
+        @include flex-center;
+        font-size: $font-2xl;
+        font-weight: $font-bold;
+        color: $text-secondary;
+        background-size: cover;
+        background-position: center;
+        
+        &.has-image {
+          background-color: transparent;
+        }
+        
+        &.no-image {
+          background-color: $bg-secondary;
+        }
+        
+        @include mobile-only {
+          width: 60px;
+          height: 60px;
+          font-size: $font-xl;
+        }
+      }
+    }
+    
+    .basic-fields {
+      .field-group {
+        margin-bottom: $spacing-lg;
+        
+        &:last-child {
+          margin-bottom: 0;
+        }
+        
+        .group-title {
+          font-size: $font-sm;
+          font-weight: $font-semibold;
+          color: $text-secondary;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          margin-bottom: $spacing-sm;
+          padding-bottom: $spacing-xs;
+          border-bottom: 1px solid $border-light;
+        }
+      }
+    }
+  }
+
+  &--contact-info {
+    grid-area: contact-info;
+    
+    .section-header {
+      margin-bottom: $spacing-lg;
+      
+      .section-title {
+        color: $text-primary;
+        font-size: $font-xl;
+        font-weight: $font-semibold;
+        margin: 0 0 $spacing-xs 0;
+        
+        @include mobile-only {
+          font-size: $font-lg;
+        }
+      }
+      
+      .section-subtitle {
+        color: $text-secondary;
+        font-size: $font-sm;
+        margin: 0;
+      }
+    }
+    
+    .info-tabs {
+      @include flex-wrap;
+      gap: $spacing-xs;
+      margin-bottom: $spacing-lg;
+      border-bottom: 1px solid $border-light;
+      
+      .tab-button {
+        @include button-base;
+        background-color: transparent;
+        color: $text-secondary;
+        border-bottom: 2px solid transparent;
+        border-radius: 0;
+        padding: $spacing-sm $spacing-md $spacing-sm 0;
+        
+        &.active {
+          color: $primary-color;
+          border-bottom-color: $primary-color;
+        }
+        
+        &:hover:not(.active) {
+          color: $text-primary;
+        }
+        
+        @include mobile-only {
+          font-size: $font-xs;
+          padding: $spacing-xs $spacing-sm $spacing-xs 0;
+        }
+      }
+    }
+    
+    .info-content {
+      .folder-section {
+        margin-bottom: $spacing-xl;
+        
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+
+  &--notes {
+    grid-area: notes;
+    
+    .section-header {
+      @include flex-between;
+      margin-bottom: $spacing-lg;
+      
+      .section-title {
+        color: $text-primary;
+        font-size: $font-lg;
+        font-weight: $font-semibold;
+        margin: 0;
+        
+        @include mobile-only {
+          font-size: $font-md;
+        }
+      }
+      
+      .edit-button {
+        @include button-primary;
+        font-size: $font-xs;
+        padding: $spacing-xs $spacing-sm;
+        
+        @include mobile-only {
+          padding: calc($spacing-xs / 2) $spacing-xs;
+        }
+      }
+    }
+    
+    .notes-content {
+      flex: 1;
+      min-height: 200px;
+      
+      @include tablet-up {
+        min-height: 150px;
+      }
+      
+      @include desktop-up {
+        min-height: 300px;
+      }
+      
+      .notes-text {
+        white-space: pre-wrap;
+        line-height: 1.6;
+        color: $text-primary;
+        
+        &.empty {
+          color: $text-muted;
+          font-style: italic;
+        }
+      }
+      
+      .notes-metadata {
+        margin-top: $spacing-md;
+        padding-top: $spacing-md;
+        border-top: 1px solid $border-light;
+        font-size: $font-xs;
+        color: $text-secondary;
+      }
+    }
+  }
+}
+
+// Responsive adjustments
+@include mobile-only {
+  .contact-section {
+    padding: $spacing-md;
+    border-radius: $radius-sm;
+  }
+}
+
+// Loading states
+.contact-section {
+  &.loading {
+    opacity: 0.6;
+    pointer-events: none;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 20px;
+      height: 20px;
+      border: 2px solid $border-light;
+      border-top: 2px solid $primary-color;
+      border-radius: $radius-full;
+      animation: spin 1s linear infinite;
+    }
+  }
+}
+
+@keyframes spin {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+// Error states
+.contact-section {
+  &.error {
+    border-color: $error-color;
+    background-color: rgba($error-color, 0.05);
+    
+    .section-title::after {
+      content: '⚠️';
+      margin-left: $spacing-xs;
+    }
+  }
+}
+
+// Print styles
+@media print {
+  .contact-layout {
+    display: block;
+    max-width: none;
+    padding: 0;
+    
+    .contact-section {
+      break-inside: avoid;
+      margin-bottom: $spacing-lg;
+      box-shadow: none;
+      border: 1px solid $border-light;
+    }
+    
+    .edit-button,
+    .tab-button {
+      display: none;
+    }
+  }
+}
+

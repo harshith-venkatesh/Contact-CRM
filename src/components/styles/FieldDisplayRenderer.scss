@@ -1,0 +1,302 @@
+
+
+@import 'variables';
+@import 'mixins';
+
+// Field Display Base Styles
+.field-display {
+  margin-bottom: $spacing-sm;
+  
+  &-label {
+    display: block;
+    margin-bottom: $spacing-xs;
+    font-weight: $font-medium;
+    font-size: $font-sm;
+    color: $text-primary;
+    
+    .required-indicator {
+      color: $error-color;
+      margin-left: $spacing-xs;
+    }
+  }
+
+  &-value {
+    // Base value container - no specific styling
+    
+    .field-value-empty {
+      color: $text-muted;
+      font-style: italic;
+    }
+  }
+}
+
+// Field Type Specific Styles
+.field-value {
+  
+  // Text fields
+  &-text, &-notes {
+    color: $text-primary;
+    line-height: 1.5;
+    
+    &.notes {
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+  }
+
+  // Contact fields
+  &-email, &-phone, &-url {
+    color: $primary-color;
+    text-decoration: none;
+    transition: color $transition-fast;
+    
+    &:hover {
+      color: darken($primary-color, 15%);
+      text-decoration: underline;
+    }
+
+    &:focus {
+      outline: 2px solid rgba($primary-color, 0.3);
+      outline-offset: 2px;
+    }
+  }
+
+  // Numeric fields
+  &-number, &-currency, &-percentage {
+    font-variant-numeric: tabular-nums;
+    font-weight: $font-medium;
+    
+    &.currency {
+      color: $success-color;
+    }
+  }
+
+  // Date and time fields
+  &-date, &-datetime, &-time {
+    @include flex-start;
+    gap: $spacing-xs;
+    
+    .icon {
+      color: $text-secondary;
+    }
+  }
+
+  // Boolean field
+  &-boolean {
+    @include flex-start;
+    gap: $spacing-xs;
+    font-weight: $font-medium;
+    
+    &--true {
+      color: $success-color;
+    }
+    
+    &--false {
+      color: $error-color;
+    }
+  }
+
+  // Select field
+  &-select {
+    @include button-base;
+    background-color: $bg-accent;
+    color: $primary-color;
+    font-size: $font-sm;
+    padding: $spacing-xs $spacing-sm;
+    border-radius: $radius-lg;
+    cursor: default;
+  }
+
+  // Tags field
+  &-tags {
+    @include flex-wrap;
+    gap: $spacing-xs;
+    
+    .field-value-tag {
+      @include button-base;
+      background-color: $bg-accent;
+      color: $primary-color;
+      font-size: $font-xs;
+      font-weight: $font-medium;
+      padding: $spacing-xs/2 $spacing-sm;
+      border-radius: $radius-lg;
+      cursor: default;
+      
+      @include mobile-only {
+        font-size: 10px;
+        padding: 2px $spacing-xs;
+      }
+    }
+  }
+
+  // Avatar field
+  &-avatar {
+    @include flex-start;
+    gap: $spacing-sm;
+    
+    .avatar-container {
+      width: 40px;
+      height: 40px;
+      border-radius: $radius-full;
+      border: 2px solid $border-light;
+      @include flex-center;
+      font-size: $font-md;
+      font-weight: $font-semibold;
+      color: $text-secondary;
+      background-size: cover;
+      background-position: center;
+      overflow: hidden;
+      flex-shrink: 0;
+      
+      &.has-image {
+        background-color: transparent;
+      }
+      
+      &.no-image {
+        background-color: $bg-secondary;
+      }
+      
+      @include mobile-only {
+        width: 32px;
+        height: 32px;
+        font-size: $font-sm;
+      }
+    }
+    
+    .avatar-info {
+      font-size: $font-xs;
+      color: $text-secondary;
+      
+      @include mobile-only {
+        display: none;
+      }
+    }
+  }
+
+  // Rating field
+  &-rating {
+    @include flex-start;
+    gap: $spacing-xs/2;
+    
+    .star {
+      font-size: $font-md;
+      
+      &.filled {
+        color: #ffd700;
+      }
+      
+      &.empty {
+        color: $border-light;
+      }
+    }
+    
+    .sr-only {
+      @include sr-only;
+    }
+  }
+
+  // Color field
+  &-color {
+    @include flex-start;
+    gap: $spacing-sm;
+    
+    .color-preview {
+      width: 24px;
+      height: 24px;
+      border: 2px solid $border-light;
+      border-radius: $radius-sm;
+      flex-shrink: 0;
+    }
+    
+    .color-value {
+      font-family: 'Courier New', monospace;
+      font-size: $font-sm;
+      color: $text-secondary;
+      
+      @include mobile-only {
+        font-size: $font-xs;
+      }
+    }
+  }
+
+  // File field
+  &-file {
+    @include flex-start;
+    gap: $spacing-xs;
+    padding: $spacing-xs $spacing-sm;
+    background-color: $bg-secondary;
+    border: 1px solid $border-light;
+    border-radius: $radius-sm;
+    font-size: $font-sm;
+    color: $text-primary;
+    
+    .file-icon {
+      color: $text-secondary;
+    }
+  }
+
+  // Location field
+  &-location {
+    @include flex-start;
+    gap: $spacing-xs;
+    color: $text-primary;
+    
+    .location-icon {
+      color: $text-secondary;
+      flex-shrink: 0;
+    }
+  }
+
+  // Unknown/unsupported field
+  &-unknown {
+    color: $error-color;
+    font-style: italic;
+    padding: $spacing-sm;
+    background-color: $bg-warning;
+    border: 1px solid $warning-color;
+    border-radius: $radius-sm;
+  }
+}
+
+// Responsive adjustments
+@include mobile-only {
+  .field-display {
+    margin-bottom: $spacing-xs;
+    
+    &-label {
+      font-size: $font-xs;
+      margin-bottom: 2px;
+    }
+    
+    &-value {
+      font-size: $font-xs;
+    }
+  }
+}
+
+@include tablet-up {
+  .field-display {
+    margin-bottom: $spacing-md;
+  }
+}
+
+// Dark mode support (optional)
+@media (prefers-color-scheme: dark) {
+  .field-display {
+    &-label {
+      color: #e0e0e0;
+    }
+  }
+  
+  .field-value {
+    &-text, &-notes {
+      color: #e0e0e0;
+    }
+    
+    &-empty {
+      color: #999;
+    }
+  }
+}
+
+
