@@ -12,50 +12,49 @@ const DynamicContactPage = () => {
   const [error, setError] = useState(null)
    
   useEffect(() => {
-    const loadContactData = async () => {
-      try {
-        setLoading(true)
+    const getContacts = () => {
+      return new Promise((resolve) => {
         const cachedContacts = sessionStorage.getItem('contacts')
         if (cachedContacts) {
-          setContacts(JSON.parse(cachedContacts))
+          resolve(JSON.parse(cachedContacts))
         } else {
-          await new Promise((res) => setTimeout(res, 1000))
-          setContacts(contactsData.data)
-          sessionStorage.setItem('contacts', JSON.stringify(contactsData.data))
+          setTimeout(() => {
+            sessionStorage.setItem('contacts', JSON.stringify(contactsData.data))
+            resolve(contactsData.data)
+          }, 1000)
         }
-        setFields(fieldsData)
-        setError(null)
-      } catch (err) {
-        setError('Failed to load configuration data')
-        console.error('Configuration load error:', err)
-      } finally {
-        setLoading(false)
-      }
+      })
     }
 
-    const loadConversationData = async () => {
-      try {
-        setLoading(true)
-        // Simulate network delay
+    const getConversations = () => {
+      return new Promise((resolve) => {
         const cachedConversations = sessionStorage.getItem('conversations')
         if (cachedConversations) {
-          setConversations(JSON.parse(cachedConversations))
+          resolve(JSON.parse(cachedConversations))
         } else {
-          await new Promise((res) => setTimeout(res, 1000))
-          setConversations(conversationsData.data)
-          sessionStorage.setItem('conversations', JSON.stringify(conversationsData.data))
+          setTimeout(() => {
+            sessionStorage.setItem('conversations', JSON.stringify(conversationsData.data))
+            resolve(conversationsData.data)
+          }, 1000)
         }
-        setFields(fieldsData)
+      })
+    }
+
+    setLoading(true)
+    setFields(fieldsData)
+    Promise.all([getContacts(), getConversations()])
+      .then(([contactsResult, conversationsResult]) => {
+        setContacts(contactsResult)
+        setConversations(conversationsResult)
         setError(null)
-      } catch (err) {
+      })
+      .catch((err) => {
         setError('Failed to load configuration data')
         console.error('Configuration load error:', err)
-      } finally {
+      })
+      .finally(() => {
         setLoading(false)
-      }
-    }
-    loadContactData()
-    loadConversationData()
+      })
   }, [])
 
   const pageStyle = {
