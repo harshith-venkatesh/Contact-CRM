@@ -15,9 +15,15 @@ const DynamicContactPage = () => {
     const loadContactData = async () => {
       try {
         setLoading(true)
+        const cachedContacts = sessionStorage.getItem('contacts')
+        if (cachedContacts) {
+          setContacts(JSON.parse(cachedContacts))
+        } else {
+          await new Promise((res) => setTimeout(res, 1000))
+          setContacts(contactsData.data)
+          sessionStorage.setItem('contacts', JSON.stringify(contactsData.data))
+        }
         setFields(fieldsData)
-        setContacts(contactsData.data)
-        
         setError(null)
       } catch (err) {
         setError('Failed to load configuration data')
@@ -30,9 +36,16 @@ const DynamicContactPage = () => {
     const loadConversationData = async () => {
       try {
         setLoading(true)
+        // Simulate network delay
+        const cachedConversations = sessionStorage.getItem('conversations')
+        if (cachedConversations) {
+          setConversations(JSON.parse(cachedConversations))
+        } else {
+          await new Promise((res) => setTimeout(res, 1000))
+          setConversations(conversationsData.data)
+          sessionStorage.setItem('conversations', JSON.stringify(conversationsData.data))
+        }
         setFields(fieldsData)
-        setConversations(conversationsData.data)
-        
         setError(null)
       } catch (err) {
         setError('Failed to load configuration data')
@@ -43,7 +56,7 @@ const DynamicContactPage = () => {
     }
     loadContactData()
     loadConversationData()
-  }, [contacts, conversations])
+  }, [])
 
   const pageStyle = {
     padding: '20px',
