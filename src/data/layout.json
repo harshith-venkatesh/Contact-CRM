@@ -1,0 +1,27 @@
+{
+  "version": "1.0.0",
+  "lastModified": "2024-01-15T10:30:00Z",
+  "defaultLayout": "contact-overview",
+  "layouts": [
+    {
+      "id": "contact-overview",
+      "name": "Contact Overview",
+      "width": 300,
+      "type": "column"
+    },
+    {
+      "id": "contact-overview",
+      "name": "Contact Overview",
+      "width": 300,
+      "type": "column"
+    },
+    {
+      "id": "contact-overview",
+      "name": "Contact Overview",
+      "width": 300,
+      "type": "column"
+    }
+
+    
+  ]
+}
